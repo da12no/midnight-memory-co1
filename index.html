@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Genavy Bartlett — Midnight Memory Co.</title>
+  <meta name="description" content="Genavy Bartlett is a photographer and writer based in Phoenix, Arizona. Through Midnight Memory Co., she captures meaningful moments and tells the stories behind them.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+
+/* ═══════════════════════════════════════════════════════════
+   BASE
+═══════════════════════════════════════════════════════════ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --w:    #faf9f7;
+  --cream:#f2efe9;
+  --blk:  #0a0a0a;
+  --ink:  #1c1c1c;
+  --gray: #8c8c8c;
+  --rule: #e0dbd4;
+  --serif:'Cormorant Garamond', Georgia, serif;
+  --sans: 'Inter', system-ui, sans-serif;
+  --ease: cubic-bezier(.25,.46,.45,.94);
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  background: var(--w);
+  color: var(--blk);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+a { text-decoration: none; color: inherit; }
+img { display: block; max-width: 100%; }
+
+/* ═══════════════════════════════════════════════════════════
+   PHOTO PLACEHOLDER
+═══════════════════════════════════════════════════════════ */
+.pw {
+  position: relative;
+  background: var(--cream);
+  overflow: hidden;
+}
+.pw::after {
+  content: attr(data-ph);
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  letter-spacing: .08em;
+  color: #c4bdb3;
+  pointer-events: none;
+  z-index: 0;
+}
+.pw img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  transition: transform .6s var(--ease);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════════════════════ */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  padding: 22px 48px;
+  z-index: 400;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.nav-links {
+  display: flex;
+  gap: 38px;
+  align-items: center;
+}
+
+.nav-links a {
+  font-family: var(--serif);
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: .05em;
+  color: var(--blk);
+  opacity: .55;
+  position: relative;
+  padding: 8px 0;
+  transition: opacity .25s;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 0; right: 100%;
+  height: 1px;
+  background: var(--blk);
+  transition: right .3s var(--ease);
+}
+.nav-links a:hover        { opacity: 1; }
+.nav-links a:hover::after { right: 0; }
+.nav-links a.active       { font-style: italic; font-weight: 600; opacity: 1; }
+.nav-links a.active::after { right: 0; }
+
+/* Hamburger button — hidden on desktop */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 501;
+}
+.nav-hamburger span {
+  display: block;
+  width: 26px;
+  height: 1.5px;
+  background: var(--blk);
+  transition: transform .3s var(--ease), opacity .3s;
+  transform-origin: center;
+}
+
+/* Mobile overlay */
+.nav-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--w);
+  z-index: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .35s var(--ease);
+}
+.nav-overlay.open { opacity: 1; pointer-events: all; }
+.nav-overlay a {
+  font-family: var(--serif);
+  font-size: clamp(26px, 7vw, 36px);
+  font-weight: 400;
+  letter-spacing: .06em;
+  color: var(--blk);
+  opacity: .6;
+  transition: opacity .2s, font-style .2s;
+}
+.nav-overlay a:hover, .nav-overlay a.active { opacity: 1; font-style: italic; }
+.nav-close {
+  position: absolute;
+  top: 18px; right: 22px;
+  background: none;
+  border: none;
+  font-size: 40px;
+  font-weight: 300;
+  font-family: var(--sans);
+  color: var(--blk);
+  cursor: pointer;
+  padding: 10px;
+  line-height: 1;
+  opacity: .5;
+  transition: opacity .2s;
+}
+.nav-close:hover { opacity: 1; }
+
+/* ═══════════════════════════════════════════════════════════
+   HERO — Genavy Bartlett / photo / PORTFOLIO
+═══════════════════════════════════════════════════════════ */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 5% 64px;
+  overflow: hidden;
+  text-align: center;
+}
+
+.hero-name-lg {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(32px, 9vw, 152px);
+  letter-spacing: -.015em;
+  line-height: .88;
+  color: var(--blk);
+  position: relative;
+  z-index: 1;
+  margin-bottom: -10px;
+  pointer-events: none;
+  user-select: none;
+}
+
+.hero-center-photo {
+  width: clamp(180px, 18vw, 250px);
+  position: relative;
+  z-index: 3;
+  flex-shrink: 0;
+}
+.hero-center-photo .pw { aspect-ratio: 3/4; }
+
+.hero-port {
+  font-family: var(--sans);
+  font-weight: 900;
+  font-size: clamp(44px, 13vw, 200px);
+  letter-spacing: -.04em;
+  line-height: .82;
+  color: var(--blk);
+  position: relative;
+  z-index: 1;
+  margin-top: -5px;
+  pointer-events: none;
+  user-select: none;
+}
+
+.hero-role-tag {
+  font-family: var(--sans);
+  font-size: clamp(11px, 1.1vw, 14px);
+  font-weight: 400;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--gray);
+  margin-top: 28px;
+  position: relative;
+  z-index: 3;
+}
+
+/* Scroll cue */
+.scroll-cue {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 4;
+  animation: cue 2.2s ease-in-out infinite;
+}
+.scroll-cue span {
+  font-family: var(--sans);
+  font-size: 9px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--blk);
+  opacity: .3;
+}
+.scroll-cue svg { width: 16px; opacity: .3; }
+@keyframes cue {
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(5px); }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SHARED HELPERS
+═══════════════════════════════════════════════════════════ */
+.rule { border: none; border-top: 1px solid var(--rule); }
+.pad  { padding: 112px 8%; }
+.padm { padding: 80px 8%; }
+
+.dhead {
+  font-family: var(--sans);
+  font-weight: 900;
+  font-size: clamp(40px, 6vw, 92px);
+  line-height: .92;
+  letter-spacing: -.03em;
+  color: var(--blk);
+}
+
+/* Reveal on scroll */
+.r {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .75s var(--ease), transform .75s var(--ease);
+}
+.r.in { opacity: 1; transform: none; }
+.r.d1 { transition-delay: .1s; }
+.r.d2 { transition-delay: .22s; }
+.r.d3 { transition-delay: .34s; }
+
+/* ═══════════════════════════════════════════════════════════
+   ABOUT
+═══════════════════════════════════════════════════════════ */
+.about-grid {
+  display: grid;
+  grid-template-columns: 45fr 55fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.about-body { margin-top: 36px; }
+.about-body p {
+  font-family: var(--sans);
+  font-size: clamp(15px, 1.35vw, 19px);
+  font-weight: 400;
+  line-height: 1.88;
+  color: #3c3c3c;
+  margin-bottom: 15px;
+}
+
+.about-photos { position: relative; padding-top: 10px; }
+.ap1 { width: 78%; margin-left: auto; }
+.ap2 { width: 52%; margin-top: -52px; margin-left: 0; }
+.ap1 .pw { aspect-ratio: 4/3; }
+.ap2 .pw { aspect-ratio: 3/4; }
+
+figcaption {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(13px, 1.1vw, 15px);
+  color: var(--gray);
+  letter-spacing: .02em;
+  margin-top: 10px;
+}
+.gi figcaption { display: none; }
+
+/* ═══════════════════════════════════════════════════════════
+   TAGLINE BAND
+═══════════════════════════════════════════════════════════ */
+.tagline-band {
+  padding: 60px 8%;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  overflow: hidden;
+}
+.tagline-band .tl {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(22px, 3.5vw, 46px);
+  font-weight: 400;
+  white-space: nowrap;
+  color: var(--blk);
+  opacity: .18;
+  flex-shrink: 0;
+}
+.tagline-band .tl-main {
+  font-family: var(--serif);
+  font-size: clamp(20px, 3vw, 40px);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--blk);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.tagline-rule { flex: 1; height: 1px; background: var(--rule); }
+
+/* ═══════════════════════════════════════════════════════════
+   SKILLS
+═══════════════════════════════════════════════════════════ */
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  margin-top: 64px;
+}
+.sk-title {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(20px, 2.2vw, 27px);
+  font-weight: 500;
+  margin-bottom: 18px;
+  text-align: center;
+}
+.sk-list {
+  list-style: disc;
+  padding-left: 20px;
+  font-family: var(--serif);
+  font-size: clamp(15px, 1.5vw, 21px);
+  line-height: 1.65;
+  color: #484848;
+}
+.sk-desc {
+  font-family: var(--serif);
+  font-size: clamp(15px, 1.4vw, 19px);
+  line-height: 1.85;
+  color: #484848;
+  text-align: center;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   WORKS
+═══════════════════════════════════════════════════════════ */
+.works-title {
+  font-family: var(--serif);
+  font-size: clamp(11px, 1vw, 13px);
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--gray);
+  margin-bottom: 56px;
+  text-align: center;
+}
+
+.category { margin-bottom: 100px; }
+
+.cat-name {
+  font-family: var(--serif);
+  font-size: clamp(36px, 5.5vw, 74px);
+  font-weight: 400;
+  letter-spacing: -.015em;
+  margin-bottom: 36px;
+  color: var(--blk);
+}
+
+/* Layout A: 1 large left + 2 stacked right (Nature) */
+.gallery-a {
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  grid-template-rows: auto auto;
+  gap: 20px;
+}
+.gallery-a .gi-main { grid-row: 1 / 3; }
+.gallery-a .gi-main .pw { aspect-ratio: 3/4; }
+.gallery-a .gi-top  .pw { aspect-ratio: 4/3; }
+.gallery-a .gi-bot  .pw { aspect-ratio: 4/3; }
+
+/* Layout B: 3 cols staggered (Portraits) */
+.gallery-b {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+.gallery-b .gi:nth-child(1) { padding-top: 56px; }
+.gallery-b .gi:nth-child(2) { padding-top: 0; }
+.gallery-b .gi:nth-child(3) { padding-top: 80px; }
+.gallery-b .gi:nth-child(1) .pw { aspect-ratio: 3/4; }
+.gallery-b .gi:nth-child(2) .pw { aspect-ratio: 2/3; }
+.gallery-b .gi:nth-child(3) .pw { aspect-ratio: 3/4; }
+
+/* Layout C: wider centre (Wildlife) */
+.gallery-c {
+  display: grid;
+  grid-template-columns: .9fr 1.2fr .9fr;
+  gap: 20px;
+  align-items: center;
+}
+.gallery-c .gi:nth-child(1) .pw { aspect-ratio: 3/4; }
+.gallery-c .gi:nth-child(2) .pw { aspect-ratio: 2/3; }
+.gallery-c .gi:nth-child(3) .pw { aspect-ratio: 3/4; }
+.gallery-c .gi:nth-child(1) { margin-top: 60px; }
+.gallery-c .gi:nth-child(3) { margin-top: 60px; }
+
+/* Layout D: 1 full + 2 below (Landscape) */
+.gallery-d .gi-wide .pw { aspect-ratio: 16/9; margin-bottom: 20px; }
+.gallery-d .gallery-d-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.gallery-d .gallery-d-row .gi .pw { aspect-ratio: 3/2; }
+
+/* Shared gallery item */
+.gi { cursor: pointer; }
+.gi .pw { width: 100%; }
+.gi:hover .pw img { transform: scale(1.04); }
+
+/* Hover overlay with title */
+.gi .pw .ov {
+  position: absolute;
+  inset: 0;
+  background: rgba(10,10,10,0);
+  display: flex;
+  align-items: flex-end;
+  padding: 18px;
+  z-index: 2;
+  transition: background .4s var(--ease);
+  pointer-events: none;
+}
+.gi:hover .pw .ov { background: rgba(10,10,10,.28); }
+.gi .pw .ov span {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 14px;
+  color: rgba(255,255,255,0);
+  letter-spacing: .03em;
+  transform: translateY(6px);
+  transition: color .35s, transform .35s var(--ease);
+}
+.gi:hover .pw .ov span {
+  color: rgba(255,255,255,.9);
+  transform: translateY(0);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   PHILOSOPHY
+═══════════════════════════════════════════════════════════ */
+.phil-inner {
+  max-width: 740px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+}
+.phil-title {
+  font-family: var(--serif);
+  font-size: clamp(22px, 2.8vw, 38px);
+  font-weight: 500;
+  letter-spacing: .01em;
+  margin-bottom: 52px;
+}
+.phil-quote-mark {
+  font-family: var(--serif);
+  font-size: clamp(80px, 12vw, 160px);
+  line-height: .6;
+  color: var(--blk);
+  opacity: .05;
+  display: block;
+  margin-bottom: -10px;
+  user-select: none;
+}
+.phil-text p {
+  font-family: var(--sans);
+  font-size: clamp(15px, 1.4vw, 20px);
+  line-height: 2.05;
+  color: #3a3a3a;
+  margin-bottom: 24px;
+}
+.phil-text p:last-child { margin-bottom: 0; }
+.phil-sig {
+  margin-top: 48px;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(16px, 1.8vw, 22px);
+  color: var(--blk);
+  opacity: .45;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CONTACT
+═══════════════════════════════════════════════════════════ */
+.contact-title {
+  font-family: var(--serif);
+  font-size: clamp(32px, 5vw, 66px);
+  font-weight: 400;
+  letter-spacing: -.01em;
+  margin-bottom: 60px;
+}
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: start;
+}
+.contact-intro {
+  font-family: var(--serif);
+  font-size: clamp(15px, 1.5vw, 21px);
+  line-height: 1.8;
+  color: #555;
+  margin-bottom: 44px;
+  font-style: italic;
+}
+.cf { margin-bottom: 32px; }
+.cf-label {
+  display: block;
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--gray);
+  margin-bottom: 7px;
+}
+.cf-val {
+  font-family: var(--sans);
+  font-size: clamp(14px, 1.4vw, 19px);
+  color: var(--blk);
+  transition: opacity .2s;
+}
+.cf-val:hover { opacity: .45; }
+.contact-photo .pw { aspect-ratio: 3/4; max-width: 340px; }
+
+/* ═══════════════════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════════════════ */
+footer {
+  padding: 28px 8%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--rule);
+}
+.fb { font-family: var(--serif); font-style: italic; font-size: 15px; color: var(--gray); }
+.fc { font-size: 11px; color: var(--gray); letter-spacing: .03em; }
+
+/* ═══════════════════════════════════════════════════════════
+   LIGHTBOX
+═══════════════════════════════════════════════════════════ */
+.lb {
+  position: fixed;
+  inset: 0;
+  background: rgba(8,8,8,.94);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .35s var(--ease);
+}
+.lb.open { opacity: 1; pointer-events: all; }
+.lb-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 90vw;
+  max-height: 92vh;
+}
+.lb-img {
+  max-width: 88vw;
+  max-height: 80vh;
+  object-fit: contain;
+  display: block;
+}
+.lb-cap {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 15px;
+  color: rgba(255,255,255,.5);
+  margin-top: 18px;
+  letter-spacing: .03em;
+}
+.lb-x {
+  position: fixed;
+  top: 18px; right: 26px;
+  background: none;
+  border: none;
+  color: rgba(255,255,255,.5);
+  font-size: 38px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 10px;
+  transition: color .2s;
+  font-weight: 300;
+  font-family: var(--sans);
+}
+.lb-x:hover { color: #fff; }
+.lb-nav {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: rgba(255,255,255,.4);
+  font-family: var(--serif);
+  font-size: 60px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 24px 22px;
+  transition: color .2s;
+}
+.lb-nav:hover { color: rgba(255,255,255,.85); }
+.lb-p { left: 0; }
+.lb-n { right: 0; }
+
+/* ═══════════════════════════════════════════════════════════
+   TOUCH - always show overlay title on tap devices
+═══════════════════════════════════════════════════════════ */
+@media (hover: none) {
+  .gi .pw .ov { background: rgba(10,10,10,.22); }
+  .gi .pw .ov span { color: rgba(255,255,255,.85); transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE — TABLET  (≤960px)
+═══════════════════════════════════════════════════════════ */
+@media (max-width: 960px) {
+  .nav { padding: 18px 28px; gap: 26px; }
+  .nav a { padding: 10px 0; }
+
+  .about-grid { grid-template-columns: 1fr; gap: 44px; }
+  .ap1 { width: 60%; margin: 0 auto; }
+  .ap2 { width: 46%; margin-top: -36px; }
+
+  .gallery-a { grid-template-columns: 1fr 1fr; }
+  .gallery-b .gi:nth-child(1) { padding-top: 36px; }
+  .gallery-b .gi:nth-child(3) { padding-top: 52px; }
+  .gallery-c .gi:nth-child(1),
+  .gallery-c .gi:nth-child(3) { margin-top: 36px; }
+
+  .contact-grid { grid-template-columns: 1fr; gap: 44px; }
+  .contact-photo .pw { max-width: 100%; }
+
+  .skills-grid { gap: 44px; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE — MOBILE  (≤640px)
+═══════════════════════════════════════════════════════════ */
+@media (max-width: 640px) {
+  .nav { padding: 13px 16px; }
+  .nav-links { display: none; }
+  .nav-hamburger { display: flex; }
+
+  .hero { padding: 70px 5% 52px; }
+  .hero-name-lg { margin-bottom: 10px; }
+  .hero-center-photo { width: clamp(130px, 36vw, 190px); }
+  .hero-port { margin-top: 10px; }
+
+  .pad  { padding: 64px 6%; }
+  .padm { padding: 52px 6%; }
+
+  .category { margin-bottom: 72px; }
+  .cat-name { font-size: clamp(28px, 7.5vw, 44px); margin-bottom: 24px; }
+
+  .tagline-band { padding: 40px 6%; }
+  .tl { display: none; }
+
+  .about-photos { padding-top: 0; display: flex; gap: 14px; }
+  .ap1 { width: 55%; margin: 0; }
+  .ap2 { width: 45%; margin-top: 28px; margin-left: 0; }
+  .ap1 .pw, .ap2 .pw { aspect-ratio: 3/4; }
+
+  .skills-grid { grid-template-columns: 1fr; gap: 44px; }
+
+  .gallery-a,
+  .gallery-b,
+  .gallery-c {
+    grid-template-columns: repeat(2, 1fr) !important;
+    grid-template-rows: auto !important;
+  }
+  .gallery-a .gi-main { grid-row: auto; }
+  .gallery-a .gi-main .pw,
+  .gallery-a .gi-top  .pw,
+  .gallery-a .gi-bot  .pw { aspect-ratio: 4/5; }
+  .gallery-b .gi,
+  .gallery-c .gi { padding-top: 0 !important; margin-top: 0 !important; }
+  .gallery-b .gi .pw,
+  .gallery-c .gi .pw { aspect-ratio: 4/5 !important; }
+
+  .gallery-d .gallery-d-row { grid-template-columns: 1fr; }
+  .gallery-d .gi-wide .pw { aspect-ratio: 4/3; }
+
+  .contact-title { margin-bottom: 36px; }
+  .contact-photo .pw { max-width: 100%; }
+
+  footer { flex-direction: column; gap: 6px; text-align: center; }
+
+  .lb-nav { font-size: 42px; padding: 20px 14px; }
+  .lb-x   { top: 12px; right: 16px; font-size: 44px; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE — SMALL PHONE  (≤420px)
+═══════════════════════════════════════════════════════════ */
+@media (max-width: 420px) {
+  .hero { padding: 80px 7% 48px; }
+
+  .pad  { padding: 52px 5%; }
+  .padm { padding: 44px 5%; }
+
+  .nav { gap: 10px; }
+  .nav a { font-size: 11.5px; }
+
+  .about-photos { flex-direction: column; gap: 12px; }
+  .ap1, .ap2 { width: 80%; margin: 0 auto; }
+  .ap2 { margin-top: 0; }
+
+  .gallery-a,
+  .gallery-b,
+  .gallery-c { grid-template-columns: 1fr !important; }
+
+  .works-title { margin-bottom: 36px; }
+  .category { margin-bottom: 56px; }
+  .cat-name { font-size: 26px; }
+}
+
+  </style>
+</head>
+<body>
+
+<!-- ════════════ NAV ════════════════════════════════════════ -->
+<nav class="nav" id="site-nav">
+  <!-- Desktop links -->
+  <div class="nav-links">
+    <a href="#home"       class="nav-link active">Home</a>
+    <a href="#about"      class="nav-link">About me</a>
+    <a href="#works"      class="nav-link">Works</a>
+    <a href="#philosophy" class="nav-link">Philosophy</a>
+    <a href="#contact"    class="nav-link">Contact</a>
+  </div>
+  <!-- Hamburger (mobile) -->
+  <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile overlay -->
+<div class="nav-overlay" id="nav-overlay" role="dialog" aria-modal="true" aria-label="Navigation">
+  <button class="nav-close" id="nav-close" aria-label="Close menu">&times;</button>
+  <a href="#home"       class="nav-link active">Home</a>
+  <a href="#about"      class="nav-link">About me</a>
+  <a href="#works"      class="nav-link">Works</a>
+  <a href="#philosophy" class="nav-link">Philosophy</a>
+  <a href="#contact"    class="nav-link">Contact</a>
+</div>
+
+<!-- ════════════ HERO ═══════════════════════════════════════ -->
+<section id="home" class="hero">
+
+  <p class="hero-name-lg">Genavy Bartlett</p>
+
+  <div class="hero-center-photo">
+    <div class="pw" data-ph="hero-main.jpg">
+      <img src="images/hero/hero-main.jpg" alt="Genavy Bartlett" onerror="this.style.display='none'">
+    </div>
+  </div>
+
+  <p class="hero-port">PORTFOLIO</p>
+  <p class="hero-role-tag">Photographer</p>
+
+  <div class="scroll-cue" aria-hidden="true">
+    <span>Scroll</span>
+    <svg viewBox="0 0 16 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M8 0v20M2 14l6 7 6-7"/>
+    </svg>
+  </div>
+
+</section>
+
+<hr class="rule">
+
+<!-- ════════════ ABOUT ══════════════════════════════════════ -->
+<section id="about" class="pad">
+  <div class="about-grid">
+
+    <div class="r">
+      <h2 class="dhead">A LITTLE<br>ABOUT ME</h2>
+      <div class="about-body">
+        <p>I'm originally from Oregon and now based in Phoenix, Arizona for the past three years, I have always had a deep love for photography and storytelling. What began as a personal hobby has grown into a passion I'm excited to turn into a meaningful career through my upcoming business, Midnight Memory Co.</p>
+        <p>As both a photographer and writer, I believe the most meaningful memories deserve to be preserved in more than one way. Photography captures the emotion, connection, and beauty of a moment, while storytelling gives those memories a deeper voice and lasting meaning. Through thoughtfully captured images and custom-written stories, I hope to help clients celebrate the people, milestones, and experiences that matter most.</p>
+        <p>Midnight Memory Co. is built around creating timeless keepsakes that allow you to revisit the joy, love, and significance behind your special moments for years to come.</p>
+      </div>
+    </div>
+
+    <div class="about-photos r d1">
+      <figure class="ap1">
+        <div class="pw" data-ph="about-1.jpg">
+          <img src="images/about/about-1.jpg" alt="Rome, Italy" onerror="this.style.display='none'">
+        </div>
+        <figcaption>Rome, Italy</figcaption>
+      </figure>
+      <figure class="ap2">
+        <div class="pw" data-ph="about-2.jpg">
+          <img src="images/about/about-2.jpg" alt="Grand Canyon" onerror="this.style.display='none'">
+        </div>
+        <figcaption>Grand Canyon</figcaption>
+      </figure>
+    </div>
+
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ════════════ SKILLS ══════════════════════════════════════ -->
+<section class="pad r">
+  <h2 class="dhead">SKILLS &<br>EXPERTISE</h2>
+  <div class="skills-grid">
+    <div>
+      <h3 class="sk-title">Digital Photography</h3>
+      <ul class="sk-list">
+        <li>Portraits</li>
+        <li>Nature</li>
+        <li>Wildlife</li>
+        <li>Landscape</li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="sk-title">Editor&thinsp;/&thinsp;Writer</h3>
+      <p class="sk-desc">Short stories and custom-written pieces created to help clients share their unique stories on life's most special days. From heartfelt love stories and milestone celebrations to personal messages and meaningful tributes, each piece is thoughtfully written to capture the emotion, memories, and personality behind the moment.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ TAGLINE BAND ════════════════════════════════════ -->
+<div class="tagline-band r">
+  <span class="tl">Photographer</span>
+  <div class="tagline-rule"></div>
+  <span class="tl-main">Preserving what matters most</span>
+  <div class="tagline-rule"></div>
+  <span class="tl">Writer</span>
+</div>
+
+<hr class="rule">
+
+<!-- ════════════ WORKS ═══════════════════════════════════════ -->
+<section id="works" class="pad">
+
+  <p class="works-title r">Photography&ensp;&mdash;&ensp;Selected Works</p>
+
+  <!-- Nature: featured left + 2 stacked right -->
+  <div class="category r">
+    <h3 class="cat-name">Nature</h3>
+    <div class="gallery-a">
+      <figure class="gi gi-main" data-src="images/nature/golden-silence.jpg" data-title="Golden Silence">
+        <div class="pw" data-ph="golden-silence.jpg">
+          <img src="images/nature/golden-silence.jpg" alt="Golden Silence" onerror="this.style.display='none'">
+          <div class="ov"><span>Golden Silence</span></div>
+        </div>
+        <figcaption>Golden Silence</figcaption>
+      </figure>
+      <figure class="gi gi-top" data-src="images/nature/winter-nights.jpg" data-title="Winter Nights">
+        <div class="pw" data-ph="winter-nights.jpg">
+          <img src="images/nature/winter-nights.jpg" alt="Winter Nights" onerror="this.style.display='none'">
+          <div class="ov"><span>Winter Nights</span></div>
+        </div>
+        <figcaption>Winter Nights</figcaption>
+      </figure>
+      <figure class="gi gi-bot" data-src="images/nature/whispers-tide.jpg" data-title="Whispers of the Tide">
+        <div class="pw" data-ph="whispers-tide.jpg">
+          <img src="images/nature/whispers-tide.jpg" alt="Whispers of the Tide" onerror="this.style.display='none'">
+          <div class="ov"><span>Whispers of the Tide</span></div>
+        </div>
+        <figcaption>Whispers of the Tide</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <!-- Portraits: 3-col staggered -->
+  <div class="category r">
+    <h3 class="cat-name">Portraits</h3>
+    <div class="gallery-b">
+      <figure class="gi" data-src="images/portraits/alleyway-angel.jpg" data-title="Alleyway Angel">
+        <div class="pw" data-ph="alleyway-angel.jpg">
+          <img src="images/portraits/alleyway-angel.jpg" alt="Alleyway Angel" onerror="this.style.display='none'">
+          <div class="ov"><span>Alleyway Angel</span></div>
+        </div>
+        <figcaption>Alleyway Angel</figcaption>
+      </figure>
+      <figure class="gi" data-src="images/portraits/sunset-glow.jpg" data-title="Sunset Glow">
+        <div class="pw" data-ph="sunset-glow.jpg">
+          <img src="images/portraits/sunset-glow.jpg" alt="Sunset Glow" onerror="this.style.display='none'">
+          <div class="ov"><span>Sunset Glow</span></div>
+        </div>
+        <figcaption>Sunset Glow</figcaption>
+      </figure>
+      <figure class="gi" data-src="images/portraits/seas-muse.jpg" data-title="The Sea's Muse">
+        <div class="pw" data-ph="seas-muse.jpg">
+          <img src="images/portraits/seas-muse.jpg" alt="The Sea's Muse" onerror="this.style.display='none'">
+          <div class="ov"><span>The Sea&#8217;s Muse</span></div>
+        </div>
+        <figcaption>The Sea&#8217;s Muse</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <!-- Wildlife: wider centre -->
+  <div class="category r">
+    <h3 class="cat-name">Wildlife</h3>
+    <div class="gallery-c">
+      <figure class="gi" data-src="images/wildlife/delicate-freedom.jpg" data-title="Delicate Freedom">
+        <div class="pw" data-ph="delicate-freedom.jpg">
+          <img src="images/wildlife/delicate-freedom.jpg" alt="Delicate Freedom" onerror="this.style.display='none'">
+          <div class="ov"><span>Delicate Freedom</span></div>
+        </div>
+        <figcaption>Delicate Freedom</figcaption>
+      </figure>
+      <figure class="gi" data-src="images/wildlife/beauty-taking-time.jpg" data-title="The Beauty of Taking Your Time">
+        <div class="pw" data-ph="beauty-taking-time.jpg">
+          <img src="images/wildlife/beauty-taking-time.jpg" alt="The Beauty of Taking Your Time" onerror="this.style.display='none'">
+          <div class="ov"><span>The Beauty of Taking Your Time</span></div>
+        </div>
+        <figcaption>The Beauty of Taking Your Time</figcaption>
+      </figure>
+      <figure class="gi" data-src="images/wildlife/caught-current.jpg" data-title="Caught in The Current">
+        <div class="pw" data-ph="caught-current.jpg">
+          <img src="images/wildlife/caught-current.jpg" alt="Caught in The Current" onerror="this.style.display='none'">
+          <div class="ov"><span>Caught in The Current</span></div>
+        </div>
+        <figcaption>Caught in The Current</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <!-- Landscape: wide feature + 2 below -->
+  <div class="category r">
+    <h3 class="cat-name">Landscape</h3>
+    <div class="gallery-d">
+      <figure class="gi gi-wide" data-src="images/landscape/pink-after-dark.jpg" data-title="Pink After Dark">
+        <div class="pw" data-ph="pink-after-dark.jpg">
+          <img src="images/landscape/pink-after-dark.jpg" alt="Pink After Dark" onerror="this.style.display='none'">
+          <div class="ov"><span>Pink After Dark</span></div>
+        </div>
+        <figcaption>Pink After Dark</figcaption>
+      </figure>
+      <div class="gallery-d-row">
+        <figure class="gi" data-src="images/landscape/crowned-stone.jpg" data-title="Crowned by Stone">
+          <div class="pw" data-ph="crowned-stone.jpg">
+            <img src="images/landscape/crowned-stone.jpg" alt="Crowned by Stone" onerror="this.style.display='none'">
+            <div class="ov"><span>Crowned by Stone</span></div>
+          </div>
+          <figcaption>Crowned by Stone</figcaption>
+        </figure>
+        <figure class="gi" data-src="images/landscape/framed-time.jpg" data-title="Framed by Time">
+          <div class="pw" data-ph="framed-time.jpg">
+            <img src="images/landscape/framed-time.jpg" alt="Framed by Time" onerror="this.style.display='none'">
+            <div class="ov"><span>Framed by Time</span></div>
+          </div>
+          <figcaption>Framed by Time</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<hr class="rule">
+
+<!-- ════════════ PHILOSOPHY ══════════════════════════════════ -->
+<section id="philosophy" class="pad r">
+  <div class="phil-inner">
+    <h2 class="phil-title">My Photography Philosophy</h2>
+    <span class="phil-quote-mark" aria-hidden="true">&ldquo;</span>
+    <div class="phil-text">
+      <p>Photography is a blessing to me in a way to preserve the beauty, emotion, and meaning found in life's most sacred moments. From golden sunsets and the quiet wonder of nature to the genuine connection shared between loved ones, I am passionate about capturing the moments that deserve to be remembered.</p>
+      <p>Through my lens, I aim to tell authentic stories and create images that bring people back to how they felt in that exact moment. My goal is not simply to take photos, but to retain joy, love, beauty, and the memories that become more valuable with time.</p>
+      <p>Every photograph is an opportunity to turn a fleeting moment into something everlasting something you can hold onto, share, and cherish for a lifetime.</p>
+    </div>
+    <p class="phil-sig">— Genavy Bartlett</p>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ════════════ CONTACT ════════════════════════════════════ -->
+<section id="contact" class="padm">
+  <h2 class="contact-title r">Get in Touch</h2>
+  <div class="contact-grid">
+
+    <div class="r">
+      <p class="contact-intro">Whether you're interested in booking a session, a custom-written piece, or simply want to say hello &mdash; Genavy would love to hear from you.</p>
+      <div class="cf">
+        <span class="cf-label">Email</span>
+        <a class="cf-val" href="mailto:genavyb@gmail.com">genavyb@gmail.com</a>
+      </div>
+      <div class="cf">
+        <span class="cf-label">Phone</span>
+        <a class="cf-val" href="tel:+19717248472">971-724-8472</a>
+      </div>
+    </div>
+
+    <div class="contact-photo r d1">
+      <div class="pw" data-ph="contact-portrait.jpg">
+        <img src="images/contact/contact-portrait.jpg" alt="Genavy Bartlett" onerror="this.style.display='none'">
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════ FOOTER ══════════════════════════════════════ -->
+<footer>
+  <span class="fb">Midnight Memory Co.</span>
+  <span class="fc">&copy; 2026 Genavy Bartlett &mdash; All rights reserved</span>
+</footer>
+
+<!-- ════════════ LIGHTBOX ════════════════════════════════════ -->
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Photo viewer">
+  <button class="lb-x" id="lb-x" aria-label="Close">&times;</button>
+  <button class="lb-nav lb-p" id="lb-p" aria-label="Previous">&#8249;</button>
+  <button class="lb-nav lb-n" id="lb-n" aria-label="Next">&#8250;</button>
+  <div class="lb-inner">
+    <img class="lb-img" id="lb-img" src="" alt="">
+    <p  class="lb-cap"  id="lb-cap"></p>
+  </div>
+</div>
+
+<script>
+/* ── GALLERY & LIGHTBOX ─────────────────────────────────── */
+const items = Array.from(document.querySelectorAll('.gi[data-src]'));
+const lb    = document.getElementById('lb');
+const lbImg = document.getElementById('lb-img');
+const lbCap = document.getElementById('lb-cap');
+let   lbIdx = 0;
+
+function open(i) {
+  const el  = items[i];
+  const img = el.querySelector('img');
+  if (!img || img.naturalWidth === 0) return;
+  lbIdx = i;
+  lbImg.src = el.dataset.src;
+  lbImg.alt = el.dataset.title;
+  lbCap.textContent = el.dataset.title;
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function close() {
+  lb.classList.remove('open');
+  document.body.style.overflow = '';
+  setTimeout(() => { lbImg.src = ''; }, 350);
+}
+function step(d) {
+  let n = lbIdx + d;
+  if (n < 0) n = items.length - 1;
+  if (n >= items.length) n = 0;
+  open(n);
+}
+
+items.forEach((el, i) => el.addEventListener('click', () => open(i)));
+document.getElementById('lb-x').addEventListener('click', close);
+document.getElementById('lb-p').addEventListener('click', e => { e.stopPropagation(); step(-1); });
+document.getElementById('lb-n').addEventListener('click', e => { e.stopPropagation(); step(1); });
+lb.addEventListener('click', e => { if (e.target === lb) close(); });
+document.addEventListener('keydown', e => {
+  if (!lb.classList.contains('open')) return;
+  if (e.key === 'Escape')     close();
+  if (e.key === 'ArrowLeft')  step(-1);
+  if (e.key === 'ArrowRight') step(1);
+});
+
+let tx = 0;
+lb.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+lb.addEventListener('touchend',   e => {
+  const dx = e.changedTouches[0].clientX - tx;
+  if (Math.abs(dx) > 50) step(dx < 0 ? 1 : -1);
+});
+
+/* ── SCROLL REVEAL ──────────────────────────────────────── */
+const ro = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); ro.unobserve(e.target); } });
+}, { threshold: 0.07 });
+document.querySelectorAll('.r').forEach(el => ro.observe(el));
+
+/* ── HAMBURGER NAV ──────────────────────────────────────── */
+const hamburger = document.getElementById('nav-hamburger');
+const overlay   = document.getElementById('nav-overlay');
+const navClose  = document.getElementById('nav-close');
+hamburger?.addEventListener('click', () => { overlay.classList.add('open'); document.body.style.overflow = 'hidden'; });
+function closeMenu() { overlay.classList.remove('open'); document.body.style.overflow = ''; }
+navClose?.addEventListener('click', closeMenu);
+overlay?.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+
+/* ── ACTIVE NAV ─────────────────────────────────────────── */
+const links = document.querySelectorAll('.nav-link');
+const no = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting)
+      links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+  });
+}, { rootMargin: '-38% 0px -58% 0px' });
+['home','about','works','philosophy','contact'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) no.observe(el);
+});
+</script>
+</body>
+</html>
