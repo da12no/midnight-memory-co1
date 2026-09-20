@@ -409,6 +409,32 @@ figcaption {
   text-align: center;
 }
 
+.cat-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: 64px;
+}
+.cat-nav a {
+  font-family: var(--serif);
+  font-size: clamp(13px, 1.1vw, 16px);
+  font-style: italic;
+  letter-spacing: .06em;
+  color: var(--blk);
+  opacity: .45;
+  transition: opacity .2s;
+}
+.cat-nav a:hover { opacity: 1; }
+.cat-nav-dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--blk);
+  opacity: .25;
+  flex-shrink: 0;
+}
+
 .category { margin-bottom: 100px; }
 
 .cat-name {
@@ -906,8 +932,18 @@ footer {
 
   <p class="works-title r">Photography&ensp;&mdash;&ensp;Selected Works</p>
 
+  <nav class="cat-nav r">
+    <a href="#cat-nature">Nature</a>
+    <span class="cat-nav-dot"></span>
+    <a href="#cat-portraits">Portraits</a>
+    <span class="cat-nav-dot"></span>
+    <a href="#cat-wildlife">Wildlife</a>
+    <span class="cat-nav-dot"></span>
+    <a href="#cat-landscape">Landscape</a>
+  </nav>
+
   <!-- Nature: featured left + 2 stacked right -->
-  <div class="category r">
+  <div class="category r" id="cat-nature">
     <h3 class="cat-name">Nature</h3>
     <div class="gallery-a">
       <figure class="gi gi-main" data-src="images/nature/golden-silence.jpg" data-title="Golden Silence">
@@ -935,7 +971,7 @@ footer {
   </div>
 
   <!-- Portraits: 3-col staggered -->
-  <div class="category r">
+  <div class="category r" id="cat-portraits">
     <h3 class="cat-name">Portraits</h3>
     <div class="gallery-b">
       <figure class="gi" data-src="images/portraits/alleyway-angel.jpg" data-title="Alleyway Angel">
@@ -963,7 +999,7 @@ footer {
   </div>
 
   <!-- Wildlife: wider centre -->
-  <div class="category r">
+  <div class="category r" id="cat-wildlife">
     <h3 class="cat-name">Wildlife</h3>
     <div class="gallery-c">
       <figure class="gi" data-src="images/wildlife/delicate-freedom.jpg" data-title="Delicate Freedom">
@@ -991,7 +1027,7 @@ footer {
   </div>
 
   <!-- Landscape: wide feature + 2 below -->
-  <div class="category r">
+  <div class="category r" id="cat-landscape">
     <h3 class="cat-name">Landscape</h3>
     <div class="gallery-d">
       <figure class="gi gi-wide" data-src="images/landscape/pink-after-dark.jpg" data-title="Pink After Dark">
