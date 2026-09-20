@@ -409,6 +409,13 @@ figcaption {
   text-align: center;
 }
 
+.sk-list a {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity .2s;
+}
+.sk-list a:hover { opacity: .45; font-style: italic; }
+
 .cat-nav {
   display: flex;
   align-items: center;
@@ -903,10 +910,10 @@ footer {
     <div>
       <h3 class="sk-title">Digital Photography</h3>
       <ul class="sk-list">
-        <li>Portraits</li>
-        <li>Nature</li>
-        <li>Wildlife</li>
-        <li>Landscape</li>
+        <li><a href="#cat-nature">Nature</a></li>
+        <li><a href="#cat-portraits">Portraits</a></li>
+        <li><a href="#cat-wildlife">Wildlife</a></li>
+        <li><a href="#cat-landscape">Landscape</a></li>
       </ul>
     </div>
     <div>
@@ -931,16 +938,6 @@ footer {
 <section id="works" class="pad">
 
   <p class="works-title r">Photography&ensp;&mdash;&ensp;Selected Works</p>
-
-  <nav class="cat-nav r">
-    <a href="#cat-nature">Nature</a>
-    <span class="cat-nav-dot"></span>
-    <a href="#cat-portraits">Portraits</a>
-    <span class="cat-nav-dot"></span>
-    <a href="#cat-wildlife">Wildlife</a>
-    <span class="cat-nav-dot"></span>
-    <a href="#cat-landscape">Landscape</a>
-  </nav>
 
   <!-- Nature: featured left + 2 stacked right -->
   <div class="category r" id="cat-nature">
